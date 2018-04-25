@@ -43,6 +43,59 @@
     var str;
     var content = $.get("sws0.txt", ready); //crucial to use the callback
     var compson = $.get("compson.txt", comp); //callback to Compson essay
+    var orange = $.get("oranges.txt", oran); //callback to Compson essay
+
+    //Configuration Callbacks
+    function ready() {
+      if(typeof content.responseText != 'undefined') {
+        str = content.responseText;
+        var code = 0;
+        //enc = encr(str);
+        dec = decr(str); ///str or dec
+        //console.log(enc);
+        //console.log(dec);
+      } else {
+        dec = "Faulkner 5 for enlightenment";
+      }
+    }
+
+    function comp() {
+      if(typeof compson.responseText != 'undefined') {
+        str = compson.responseText;
+        document.getElementById("compson").innerHTML = str;
+      } else {
+        document.getElementById("compson").innerHTML = "Loading Compson";
+      }
+    }
+
+    function oran() {
+      if(typeof orange.responseText != 'undefined') {
+        str = orange.responseText;
+        document.getElementById("oranges").innerHTML = str;
+      } else {
+        document.getElementById("oranges").innerHTML = "Loading Oranges";
+      }
+    }
+
+    //animation stuff
+    document.onkeypress = function (e) {
+      x = event.which || event.keyCode;
+      count += x;
+      check();
+    }
+    var $win = $(window);
+    $win.on('scroll', function() {
+      var top = $win.scrollTop();
+      $('.globe').css('transform', 'rotate(' + top/4 + 'deg)');
+      var target = $(".scratches").offset().top;
+      var hand = map(top, target-300, target-50, 0, 1);  //This changes...
+      $('.scratches').css('opacity', hand);
+      $('.slide').css("margin-left", ""+top/15+"px");
+    });
+
+    function map(n, start1, stop1, start2, stop2) {
+      return ((n-start1)/(stop1-start1))*(stop2-start2)+start2;
+    };
 
     function encr(str) {
       var code = 0;
@@ -64,17 +117,26 @@
       return result;
     }
 
-    function mobile() {
-      if (count == 1575)
-        count = 0;
-      else
-        count = 1575;
-      check();
+    //Toggle function //TODO modularize or make one for every entry :/
+    function toggleCompson(id) {
+      if(document.getElementById(id).innerHTML == "") {
+        document.getElementById(id).innerHTML = compson.responseText; //This can't be modularized unless --> []
+      } else {
+        document.getElementById(id).innerHTML = "";
+      }
+    }
+
+    function toggleOrange(id) {
+      if(document.getElementById(id).innerHTML == "") {
+        document.getElementById(id).innerHTML = orange.responseText; //This can't be modularized unless --> []
+      } else {
+        document.getElementById(id).innerHTML = "";
+      }
     }
 
     function check() {
-      if(count == 1575) { //pw
-        document.getElementById("sws").innerHTML = dec; //this is backwards
+      if(count == 1575) {
+        document.getElementById("sws").innerHTML = dec;
       } else {
         document.getElementById("sws").innerHTML = "<del>[SCRATCHES]</del>";
       }
@@ -83,49 +145,13 @@
       }
     }
 
-    function ready() {
-      if(typeof content.responseText != 'undefined') {
-        str = content.responseText;
-        var code = 0;
-        //enc = encr(str);
-        dec = decr(str); ///str or dec
-        //console.log(enc);
-        //console.log(dec);
-      } else {
-        dec = "Faulkner 5 for enlightenment";
-      }
-    }
-
-    function comp() {
-      if(typeof compson.responseText != 'undefined') {
-        str = compson.responseText;
-        document.getElementById("compson").innerHTML = str;
-      } else {
-        ocument.getElementById("compson").innerHTML = "Loading Compson";
-      }
-    }
-
-    document.onkeypress = function (e) {
-      x = event.which || event.keyCode;
-      count += x;
+    function mobile() {
+      if (count == 1575)
+        count = 0;
+      else
+        count = 1575;
       check();
     }
-    //animation stuff
-    var $win = $(window);
-    $win.on('scroll', function() {
-      var top = $win.scrollTop();
-      $('.globe').css('transform', 'rotate(' + top/4 + 'deg)');
-      var target = $(".scratches").offset().top;
-      var hand = map(top, target-300, target-50, 0, 1);  //This changes...
-      $('.scratches').css('opacity', hand);
-      $('.slide').css("margin-left", ""+top/15+"px");
-      //console.log(top);
-    });
-
-    function map(n, start1, stop1, start2, stop2) {
-      return ((n-start1)/(stop1-start1))*(stop2-start2)+start2;
-    };
-
 
   </script>
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
@@ -134,55 +160,20 @@
   <div class="head">
     <h1><em>Plots' Platitudes</em></h1>
     <div class="about">
-      <h4 style="color: white;"> Not meant for mobile consumption.  Hunker down, grab a coffee and some almonds, and enjoy.</h3>
+      <h4 style="color: white;"> Not meant for mobile consumption.</h3>
       <h5> Notepad, blog, doodle book, repository.  This is some stuff I've written.</h3>
     </div>
   </div>
 
   <div class="regular">
-    <h1 style="text-align: center;">On the Subject of Comparing Apples and Oranges</h1>
-    <div style="width: 70%; margin: 0 auto;">
-      <p style="font-family: Courier; font-size: 10pt; text-indent: 30pt;">Although, at face value, the answer to the posed question only decides which fruit to indulge in at any given time,
-        the process by which that solution is achieved is far more rewarding than the juicy treat yielded by the initial
-        inquiry.  In accident, the two items are quite similar.  They are both small, brightly colored, juicy, equally
-        affordable, healthy fruits.  Neither one possesses an objectively superior quality which would advance it in
-        the hierarchy of otherwise equally delectable fruits.  In essence, however, one may be much more preferable to
-        its consumer.  Although the decision between two good things ought to be easy, it is often, in fact, the hardest.
-        As human beings with extensively complex consciences, decisions between an objectively good and bad thing are
-        comparatively easier to make than those choices we make which have no impact on our moral status or those around us.
-        There is no empirically accepted metric by which the average, non-citrus-allergic human being can inherently
-        compare the meaningful goodness of two things as similar as apple and orange.  Thus, human beings’ thoughts are
-        far more susceptible to being hijacked by the contemplation of which fruit to omit from their salad, than they
-        are to struggle with Solomonic moral dilemmas regarding the splitting of babies.  Therefore, the best way to
-        analyze two similar and morally irrelevant objects is to assess their ability to fulfill their purpose relative
-        to the individual affected.</p>
-
-        <p style="font-family: Courier; font-size: 10pt; text-indent: 30pt;">Luckily for the indecisive and hungry thinkers of the 21st century who find themselves stuck between the ongoing
-        internal struggle between red and orange, the German philosopher Edmund Husserl pioneered an appropriate framework
-        which can be used to begin to assess such seeming equivalencies as apples and oranges known as phenomenology.
-        In attempting to achieve an objective determination, Husserl thought it was first necessary to not only acknowledge
-        our own subjective biases which impact our decision making, but to embrace them, so as to strip away all the additives
-        which contaminate our perception of an object’s or experience’s essence.  Expanding upon this means of analyzing the
-        world around us, I would argue that these biases, although menial when taken by themselves (orange or red, needs peeling
-        or can be eaten whole, sweet or tangy), carry the most weight when acknowledged collectively according to the individual.
-        By departing from the objectivity-driven quest for certainty pursued by the phenomenological lens of Husserl and those
-        who followed him, in favor of a focus on those subjective qualities we, as fruit consumers, ascribe to our agonizingly
-        tantamount produce, a relativistic structure of thought can be used to reveal the the solution as to which fruit we ought
-        to choose.  Whereas Husserl’s phenomenological approach still attempts to yield an objective answer through acknowledgement
-        and subsequent removal of subjective factors, I think that these subjective factors provide the most informative measure
-        of a fruit’s efficacy to <a href='javascript:;' onclick='mobile();' style="text-decoration: none; color: black;">satiate</a> the individual’s desire.</p>
-        <p style="font-family: Courier; font-size: 10pt; text-indent: 30pt;">When picking between an apple and an orange, perspective is everything.  Edmund Husserl’s phenomenological approach to
-        analyzing the nature of an experience according to the extensive context by which it is observed can only get us so far
-        when examining things of such little consequence as fruits.  When faced with the crux of Granny Smith or Clementine, and
-        after reducing either to a lump of its essence --the sum of <i>only</i> its eidetic parts-- how could anybody enjoy either?  If an
-        object is only comparable according to its ability to fulfill its purpose as defined by its user, don’t let the question
-        consume you; consume the apple (or orange if that’s what you prefer).</p>
-    </div>
+    <h1 style="text-align: center;" onclick="toggleOrange('oranges')">On the Subject of Comparing Apples and Oranges</h1>
+    <div id="oranges">Loading Oranges</div>
   </div>
 
   <!--  filler -->
   <div class="regular">
     <h1 style="text-align: center;">Milton Friedman, Karl Marx, and Schrodinger's Cat: The Foundation of Society</h1>
+    <a href="subdomain/subd.html">PROOF</a>
     <PRE>
     Marx - The collective masses which compose society can be trusted
     Friedman - The individual cannot be trusted, but should have the opportunity - leadership
@@ -195,6 +186,7 @@
   </div>
 
   <div class="regular">
+    <h2 style="text-align: center;" onclick="toggleCompson('compson')">The Deafening Sound of Life : A Comparison of the Compson Brother’s Reactions to Tragedy</h2>
     <div id="compson">Loading Compson</div>
   </div>
 
